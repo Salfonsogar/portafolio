@@ -1,0 +1,384 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .dash { padding: 1.5rem 0; font-family: var(--font-sans); }
+
+  @keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  @keyframes barFill { from { width:0; } to { width:var(--w); } }
+  @keyframes dotPop { 0%{transform:scale(0);opacity:0;} 60%{transform:scale(1.3);} 100%{transform:scale(1);opacity:1;} }
+  @keyframes lineGrow { from { height:0; } to { height:100%; } }
+  @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(24,95,165,0.25);} 50%{box-shadow:0 0 0 6px rgba(24,95,165,0);} }
+  @keyframes cardIn { from{opacity:0;transform:translateY(12px) scale(0.98);} to{opacity:1;transform:translateY(0) scale(1);} }
+
+  .anim-0 { animation: fadeUp 0.5s ease both; animation-delay: 0.05s; }
+  .anim-1 { animation: fadeUp 0.5s ease both; animation-delay: 0.15s; }
+  .anim-2 { animation: fadeUp 0.5s ease both; animation-delay: 0.25s; }
+  .anim-3 { animation: fadeUp 0.5s ease both; animation-delay: 0.35s; }
+  .anim-4 { animation: fadeUp 0.5s ease both; animation-delay: 0.45s; }
+  .anim-5 { animation: fadeUp 0.5s ease both; animation-delay: 0.55s; }
+  .anim-6 { animation: fadeUp 0.5s ease both; animation-delay: 0.65s; }
+
+  .hero { display:flex; align-items:center; gap:1.25rem; margin-bottom:2rem; padding-bottom:1.5rem; border-bottom:0.5px solid var(--color-border-tertiary); }
+  .avatar { width:64px; height:64px; border-radius:50%; background:#185FA5; display:flex; align-items:center; justify-content:center; font-weight:500; font-size:20px; color:#E6F1FB; flex-shrink:0; animation: pulse 2.5s ease-in-out 0.6s infinite; }
+  .hero-text h1 { font-size:22px; font-weight:500; color:var(--color-text-primary); margin-bottom:3px; }
+  .hero-text p { font-size:14px; color:var(--color-text-secondary); margin-bottom:8px; }
+  .brands { display:flex; gap:8px; flex-wrap:wrap; }
+  .brand-link { display:inline-flex; align-items:center; gap:5px; font-size:12px; padding:4px 10px; border-radius:20px; border:0.5px solid var(--color-border-secondary); color:var(--color-text-secondary); text-decoration:none; transition:background 0.2s, transform 0.15s, border-color 0.2s; }
+  .brand-link:hover { background:var(--color-background-secondary); transform:translateY(-1px); border-color:var(--color-border-primary); }
+  .li-color { color:#0A66C2; }
+
+  .section-title { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-text-tertiary); margin-bottom:0.75rem; }
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:1.5rem; }
+  .card { background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem 1.25rem; transition:border-color 0.2s, transform 0.2s; }
+  .card:hover { border-color:var(--color-border-secondary); transform:translateY(-2px); }
+
+  .comp-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .comp-label { font-size:13px; color:var(--color-text-primary); width:200px; flex-shrink:0; }
+  .comp-bar-bg { flex:1; height:6px; background:var(--color-background-secondary); border-radius:3px; overflow:hidden; }
+  .comp-bar { height:100%; border-radius:3px; background:#185FA5; width:0; }
+  .comp-bar.animate { animation: barFill 1s cubic-bezier(0.22,1,0.36,1) both; }
+  .comp-tag { font-size:11px; color:#185FA5; background:#E6F1FB; padding:2px 8px; border-radius:10px; }
+
+  .strength-chip { display:inline-flex; align-items:center; gap:5px; font-size:12px; padding:5px 10px; border-radius:20px; background:var(--color-background-secondary); color:var(--color-text-secondary); margin:3px; transition:background 0.2s, color 0.2s, transform 0.15s; cursor:default; }
+  .strength-chip:hover { background:#E6F1FB; color:#185FA5; transform:scale(1.04); }
+  .strength-chip i { font-size:14px; color:#185FA5; }
+
+  .dofa-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--color-border-tertiary); border-radius:var(--border-radius-lg); overflow:hidden; margin-bottom:1.5rem; }
+  .dofa-cell { background:var(--color-background-primary); padding:1rem; transition:background 0.2s; }
+  .dofa-cell:hover { background:var(--color-background-secondary); }
+  .dofa-label { font-size:10px; font-weight:500; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; display:flex; align-items:center; gap:5px; }
+  .dofa-d{color:#A32D2D;} .dofa-o{color:#0F6E56;} .dofa-f{color:#185FA5;} .dofa-a{color:#854F0B;}
+  .dofa-item { font-size:12px; color:var(--color-text-secondary); padding:4px 0; border-bottom:0.5px solid var(--color-border-tertiary); line-height:1.4; transition:color 0.15s; }
+  .dofa-item:last-child { border-bottom:none; }
+  .dofa-cell:hover .dofa-item { color:var(--color-text-primary); }
+
+  .strat-card { background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:0.9rem 1rem; margin-bottom:10px; transition:border-color 0.2s, transform 0.2s; cursor:default; }
+  .strat-card:hover { transform:translateY(-2px); border-color:var(--color-border-secondary); }
+  .strat-badge { display:inline-block; font-size:10px; font-weight:500; padding:2px 8px; border-radius:10px; margin-bottom:7px; }
+  .fo{background:#E1F5EE;color:#085041;} .do{background:#E6F1FB;color:#0C447C;}
+  .fa{background:#FAEEDA;color:#633806;} .daf{background:#EEEDFE;color:#3C3489;}
+  .strat-text { font-size:12px; color:var(--color-text-secondary); line-height:1.55; }
+
+  .timeline { position:relative; padding-left:28px; margin-bottom:1.5rem; }
+  .tl-line { position:absolute; left:9px; top:8px; bottom:0; width:0.5px; background:var(--color-border-secondary); transform-origin:top; }
+  .tl-line.animate { animation: lineGrow 1.2s cubic-bezier(0.22,1,0.36,1) 0.4s both; }
+  .t-item { position:relative; margin-bottom:1.25rem; }
+  .t-dot { position:absolute; left:-24px; top:4px; width:12px; height:12px; border-radius:50%; background:#185FA5; border:2px solid var(--color-background-primary); box-shadow:0 0 0 1px #185FA5; }
+  .t-dot.animate { animation: dotPop 0.45s cubic-bezier(0.22,1,0.36,1) both; }
+  .t-dot-2{background:#0F6E56;box-shadow:0 0 0 1px #0F6E56;} .t-dot-3{background:#533AB7;box-shadow:0 0 0 1px #533AB7;}
+  .t-horizon{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:#185FA5;margin-bottom:3px;}
+  .t-horizon-2{color:#0F6E56;} .t-horizon-3{color:#533AB7;}
+  .t-goal{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px;}
+  .t-actions{list-style:none;}
+  .t-actions li{font-size:12px;color:var(--color-text-secondary);padding:2px 0;display:flex;align-items:flex-start;gap:5px;line-height:1.4;transition:color 0.15s,transform 0.15s;}
+  .t-actions li:hover{color:var(--color-text-primary);transform:translateX(3px);}
+  .t-actions li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--color-border-secondary);margin-top:6px;flex-shrink:0;transition:background 0.15s;}
+  .t-actions li:hover::before{background:#185FA5;}
+
+  .tabs { display:flex; gap:4px; margin-bottom:1rem; background:var(--color-background-secondary); border-radius:var(--border-radius-md); padding:3px; }
+  .tab { flex:1; font-size:12px; padding:6px 10px; border-radius:6px; border:none; background:transparent; color:var(--color-text-secondary); cursor:pointer; transition:background 0.2s, color 0.2s; }
+  .tab.active { background:var(--color-background-primary); color:var(--color-text-primary); font-weight:500; }
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; animation: fadeIn 0.25s ease; }
+
+  /* ── Proyectos ── */
+  .proj-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:1.5rem; }
+  .proj-card { background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); overflow:hidden; transition:border-color 0.25s, transform 0.25s; cursor:default; animation: cardIn 0.5s ease both; }
+  .proj-card:nth-child(1) { animation-delay: 0.1s; }
+  .proj-card:nth-child(2) { animation-delay: 0.22s; }
+  .proj-card:hover { border-color:var(--color-border-primary); transform:translateY(-3px); }
+  .proj-header { padding:1rem 1.1rem 0.75rem; display:flex; align-items:flex-start; gap:10px; }
+  .proj-icon { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:18px; }
+  .proj-icon-flutter { background:#E6F1FB; color:#185FA5; }
+  .proj-icon-python { background:#E1F5EE; color:#0F6E56; }
+  .proj-meta { flex:1; }
+  .proj-name { font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:2px; }
+  .proj-sub { font-size:11px; color:var(--color-text-tertiary); }
+  .proj-body { padding:0 1.1rem 1rem; }
+  .proj-desc { font-size:12px; color:var(--color-text-secondary); line-height:1.6; margin-bottom:10px; }
+  .proj-tags { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px; }
+  .proj-tag { font-size:10px; padding:2px 8px; border-radius:10px; border:0.5px solid var(--color-border-secondary); color:var(--color-text-secondary); transition:background 0.15s, color 0.15s; }
+  .proj-tag:hover { background:var(--color-background-secondary); }
+  .proj-tag-flutter { border-color:#B5D4F4; color:#185FA5; background:#E6F1FB; }
+  .proj-tag-python { border-color:#9FE1CB; color:#0F6E56; background:#E1F5EE; }
+  .proj-footer { border-top:0.5px solid var(--color-border-tertiary); padding:0.65rem 1.1rem; display:flex; align-items:center; justify-content:space-between; }
+  .proj-link { display:inline-flex; align-items:center; gap:5px; font-size:11px; color:var(--color-text-secondary); text-decoration:none; transition:color 0.15s, transform 0.15s; }
+  .proj-link:hover { color:var(--color-text-primary); transform:translateX(2px); }
+  .proj-stat { display:flex; align-items:center; gap:4px; font-size:11px; color:var(--color-text-tertiary); }
+
+  .marca-card { background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem 1.25rem; display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap; transition:border-color 0.2s; }
+  .marca-card:hover { border-color:var(--color-border-secondary); }
+  .brand-link-lg { display:inline-flex; align-items:center; gap:6px; font-size:13px; padding:8px 16px; border-radius:20px; border:0.5px solid var(--color-border-secondary); color:var(--color-text-secondary); text-decoration:none; transition:background 0.2s, transform 0.15s; }
+  .brand-link-lg:hover { background:var(--color-background-secondary); transform:translateX(3px); }
+</style>
+
+<div class="dash">
+  <h2 class="sr-only">Dashboard profesional de Santiago García — Ingeniero de Software</h2>
+
+  <!-- HERO -->
+  <div class="hero anim-0">
+    <div class="avatar">SG</div>
+    <div class="hero-text">
+      <h1>Santiago García</h1>
+      <p>Ingeniería de Sistemas &amp; Software · Bogotá, Colombia</p>
+      <div class="brands">
+        <a class="brand-link" href="https://www.linkedin.com/in/santiago-garcia-a69830356" target="_blank">
+          <i class="ti ti-brand-linkedin li-color" aria-hidden="true"></i> LinkedIn
+        </a>
+        <a class="brand-link" href="https://github.com/Salfonsogar" target="_blank">
+          <i class="ti ti-brand-github" aria-hidden="true"></i> GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPETENCIAS -->
+  <div class="anim-1">
+    <p class="section-title">Perfil &amp; competencias</p>
+    <div class="tabs" id="tab-bar">
+      <button class="tab active" data-tab="comp">Técnicas</button>
+      <button class="tab" data-tab="strength">Fortalezas</button>
+    </div>
+    <div class="tab-panel active" id="tab-comp">
+      <div class="card" style="margin-bottom:0">
+        <div class="comp-row">
+          <span class="comp-label">Desarrollo de software</span>
+          <div class="comp-bar-bg"><div class="comp-bar" style="--w:60%"></div></div>
+          <span class="comp-tag">Medio</span>
+        </div>
+        <div class="comp-row">
+          <span class="comp-label">Arquitecturas de software</span>
+          <div class="comp-bar-bg"><div class="comp-bar" style="--w:60%"></div></div>
+          <span class="comp-tag">Medio</span>
+        </div>
+        <div class="comp-row" style="margin-bottom:0">
+          <span class="comp-label">Resolución de problemas</span>
+          <div class="comp-bar-bg"><div class="comp-bar" style="--w:60%"></div></div>
+          <span class="comp-tag">Medio</span>
+        </div>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-strength">
+      <div class="card" style="margin-bottom:0;display:flex;flex-wrap:wrap;align-items:flex-start;gap:2px;">
+        <span class="strength-chip"><i class="ti ti-users" aria-hidden="true"></i>Liderazgo</span>
+        <span class="strength-chip"><i class="ti ti-bolt" aria-hidden="true"></i>Iniciativa</span>
+        <span class="strength-chip"><i class="ti ti-brain" aria-hidden="true"></i>Aprendizaje autónomo</span>
+        <span class="strength-chip"><i class="ti ti-refresh" aria-hidden="true"></i>Adaptabilidad</span>
+        <span class="strength-chip"><i class="ti ti-database" aria-hidden="true"></i>Gestión de datos</span>
+        <span class="strength-chip"><i class="ti ti-code" aria-hidden="true"></i>Ingeniería de software</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROYECTOS -->
+  <div class="anim-2" style="margin-top:1.5rem">
+    <p class="section-title">Proyectos destacados</p>
+    <div class="proj-grid">
+
+      <!-- OpenBooks Mobile -->
+      <div class="proj-card">
+        <div class="proj-header">
+          <div class="proj-icon proj-icon-flutter">
+            <i class="ti ti-books" aria-hidden="true"></i>
+          </div>
+          <div class="proj-meta">
+            <p class="proj-name">OpenBooks Mobile</p>
+            <p class="proj-sub">App multiplataforma · Flutter</p>
+          </div>
+        </div>
+        <div class="proj-body">
+          <p class="proj-desc">Biblioteca virtual con lector integrado y modo audio. Manipulación de archivos PDF, EPUB y DOCX con soporte multiplataforma para iOS y Android.</p>
+          <div class="proj-tags">
+            <span class="proj-tag proj-tag-flutter">Flutter</span>
+            <span class="proj-tag proj-tag-flutter">Dart</span>
+            <span class="proj-tag">PDF</span>
+            <span class="proj-tag">EPUB</span>
+            <span class="proj-tag">Text-to-Speech</span>
+            <span class="proj-tag">Multiplataforma</span>
+          </div>
+        </div>
+        <div class="proj-footer">
+          <a class="proj-link" href="https://github.com/Salfonsogar/OpenBooksMobile" target="_blank">
+            <i class="ti ti-brand-github" style="font-size:14px" aria-hidden="true"></i> Ver repositorio <i class="ti ti-arrow-right" style="font-size:12px" aria-hidden="true"></i>
+          </a>
+          <span class="proj-stat"><i class="ti ti-git-branch" style="font-size:12px" aria-hidden="true"></i> main</span>
+        </div>
+      </div>
+
+      <!-- EmpleaData -->
+      <div class="proj-card">
+        <div class="proj-header">
+          <div class="proj-icon proj-icon-python">
+            <i class="ti ti-chart-bar" aria-hidden="true"></i>
+          </div>
+          <div class="proj-meta">
+            <p class="proj-name">EmpleaData</p>
+            <p class="proj-sub">Análisis de datos · Python</p>
+          </div>
+        </div>
+        <div class="proj-body">
+          <p class="proj-desc">Analizador de empleabilidad y desempleo en Colombia de los últimos 6 años. Limpieza de datos crudos del DANE, métricas detalladas y comparaciones por período y región.</p>
+          <div class="proj-tags">
+            <span class="proj-tag proj-tag-python">Python</span>
+            <span class="proj-tag proj-tag-python">Pandas</span>
+            <span class="proj-tag">DANE</span>
+            <span class="proj-tag">Data cleaning</span>
+            <span class="proj-tag">Visualización</span>
+            <span class="proj-tag">Colombia</span>
+          </div>
+        </div>
+        <div class="proj-footer">
+          <a class="proj-link" href="https://github.com/Salfonsogar/EmpleaData" target="_blank">
+            <i class="ti ti-brand-github" style="font-size:14px" aria-hidden="true"></i> Ver repositorio <i class="ti ti-arrow-right" style="font-size:12px" aria-hidden="true"></i>
+          </a>
+          <span class="proj-stat"><i class="ti ti-git-branch" style="font-size:12px" aria-hidden="true"></i> main</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DOFA -->
+  <div class="anim-3">
+    <p class="section-title">Análisis DOFA</p>
+    <div class="dofa-grid">
+      <div class="dofa-cell">
+        <div class="dofa-label dofa-d"><i class="ti ti-arrow-down-circle" style="font-size:13px" aria-hidden="true"></i> Debilidades</div>
+        <div class="dofa-item">Diseño visual y UX limitado</div>
+        <div class="dofa-item">Escasa experiencia Cloud (AWS, Azure, GCP)</div>
+        <div class="dofa-item">Inglés técnico por fortalecer</div>
+        <div class="dofa-item">Redes e infraestructura intermedios</div>
+      </div>
+      <div class="dofa-cell">
+        <div class="dofa-label dofa-o"><i class="ti ti-arrow-up-right-circle" style="font-size:13px" aria-hidden="true"></i> Oportunidades</div>
+        <div class="dofa-item">Eventos académicos y tecnológicos UPC</div>
+        <div class="dofa-item">Semilleros de investigación</div>
+        <div class="dofa-item">Programas de emprendimiento UPC</div>
+        <div class="dofa-item">Convenios con sector público y privado</div>
+      </div>
+      <div class="dofa-cell">
+        <div class="dofa-label dofa-f"><i class="ti ti-shield-check" style="font-size:13px" aria-hidden="true"></i> Fortalezas</div>
+        <div class="dofa-item">Análisis y documentación de requerimientos</div>
+        <div class="dofa-item">Diseño y construcción de soluciones software</div>
+        <div class="dofa-item">Procesamiento y gestión de información digital</div>
+        <div class="dofa-item">Aprendizaje autónomo y resolución de problemas</div>
+      </div>
+      <div class="dofa-cell">
+        <div class="dofa-label dofa-a"><i class="ti ti-alert-triangle" style="font-size:13px" aria-hidden="true"></i> Amenazas</div>
+        <div class="dofa-item">Alta competencia en mercado laboral junior</div>
+        <div class="dofa-item">Experiencia previa exigida desde nivel junior</div>
+        <div class="dofa-item">IA generativa reduce demanda de tareas básicas</div>
+        <div class="dofa-item">Brecha academia vs. industria real</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESTRATEGIAS -->
+  <div class="anim-4">
+    <p class="section-title">Estrategias cruzadas</p>
+    <div class="grid-2" style="gap:10px">
+      <div class="strat-card"><span class="strat-badge fo">FO — F1 + O2</span><p class="strat-text">Participar en semilleros de investigación aplicando competencias en levantamiento de requerimientos y diseño de soluciones tecnológicas reales.</p></div>
+      <div class="strat-card"><span class="strat-badge do">DO — D1 + O1</span><p class="strat-text">Reducir brechas en diseño UI/UX mediante cursos y plataformas de aprendizaje, aplicando en proyectos personales para mejorar la experiencia de usuario.</p></div>
+      <div class="strat-card"><span class="strat-badge fa">FA — F4 + A4</span><p class="strat-text">Usar la capacidad de aprendizaje autónomo para adquirir herramientas y metodologías de la industria, cerrando la brecha entre academia y entorno laboral.</p></div>
+      <div class="strat-card"><span class="strat-badge daf">DAF — D3 + A2 + F4</span><p class="strat-text">Aprovechar el procesamiento de datos para cerrar la brecha académica, fortaleciendo habilidades Cloud e infraestructura mediante proyectos prácticos integradores.</p></div>
+    </div>
+  </div>
+
+  <!-- PLAN DE ACCIÓN -->
+  <div class="anim-5">
+    <p class="section-title">Plan de acción profesional</p>
+    <div class="timeline">
+      <div class="tl-line" id="tl-line"></div>
+      <div class="t-item">
+        <div class="t-dot" id="dot-1"></div>
+        <p class="t-horizon">Hasta 1 año</p>
+        <p class="t-goal">Inglés técnico + Cloud + UI/UX</p>
+        <ul class="t-actions">
+          <li>30 min diarios de estudio autónomo del idioma</li>
+          <li>Leer documentación técnica y artículos en inglés</li>
+          <li>Cursos especializados en AWS, Azure o GCP</li>
+          <li>Obtener al menos una certificación fundamental Cloud</li>
+          <li>Cursos de diseño UI/UX con Figma o Adobe XD</li>
+        </ul>
+      </div>
+      <div class="t-item">
+        <div class="t-dot t-dot-2" id="dot-2"></div>
+        <p class="t-horizon t-horizon-2">Hasta 3 años</p>
+        <p class="t-goal">Proyectos en la nube + portafolio de diseño</p>
+        <ul class="t-actions">
+          <li>Proyectos académicos y personales con servicios Cloud</li>
+          <li>Implementar prácticas de despliegue en software real</li>
+          <li>Analizar y replicar buenas prácticas de apps reconocidas</li>
+          <li>Construir portafolio de interfaces que evidencie evolución</li>
+        </ul>
+      </div>
+      <div class="t-item">
+        <div class="t-dot t-dot-3" id="dot-3"></div>
+        <p class="t-horizon t-horizon-3">Hasta 5 años</p>
+        <p class="t-goal">Perfil competitivo e integrado en la industria</p>
+        <ul class="t-actions">
+          <li>Proyectos interdisciplinarios de diseño y desarrollo</li>
+          <li>Consolidar experiencia en entornos empresariales reales</li>
+          <li>Fortalecer red profesional en comunidades del sector</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARCA PERSONAL -->
+  <div class="anim-6">
+    <p class="section-title">Marca personal</p>
+    <div class="marca-card">
+      <div style="flex:1;min-width:220px;">
+        <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;">Ingeniero de software en formación con base sólida en análisis de requerimientos, arquitectura y resolución de problemas. En constante aprendizaje hacia Cloud, UX e inglés técnico para consolidarse como profesional competitivo en la industria del software.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0;">
+        <a class="brand-link-lg" href="https://www.linkedin.com/in/santiago-garcia-a69830356" target="_blank">
+          <i class="ti ti-brand-linkedin li-color" style="font-size:18px" aria-hidden="true"></i> linkedin.com/in/santiago-garcia-a69830356
+        </a>
+        <a class="brand-link-lg" href="https://github.com/Salfonsogar" target="_blank">
+          <i class="ti ti-brand-github" style="font-size:18px" aria-hidden="true"></i> github.com/Salfonsogar
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('#tab-bar .tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#tab-bar .tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      if (btn.dataset.tab === 'comp') animateBars();
+    });
+  });
+
+  function animateBars() {
+    document.querySelectorAll('.comp-bar').forEach(bar => {
+      bar.style.width = '0';
+      bar.classList.remove('animate');
+      void bar.offsetWidth;
+      bar.classList.add('animate');
+      bar.style.width = getComputedStyle(bar).getPropertyValue('--w') || '60%';
+    });
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      if (el.id === 'tl-line') el.classList.add('animate');
+      if (el.id === 'dot-1') setTimeout(() => el.classList.add('animate'), 100);
+      if (el.id === 'dot-2') setTimeout(() => el.classList.add('animate'), 400);
+      if (el.id === 'dot-3') setTimeout(() => el.classList.add('animate'), 700);
+      if (el.classList.contains('comp-bar')) animateBars();
+      io.unobserve(el);
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('#tl-line, #dot-1, #dot-2, #dot-3, .comp-bar').forEach(el => io.observe(el));
+  setTimeout(animateBars, 600);
+</script>

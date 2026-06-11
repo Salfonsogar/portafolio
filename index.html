@@ -1,9 +1,13 @@
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Santiago García — Portafolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.24.0/dist/tabler-icons.min.css">
-
 <style>
   :root {
     --bg-primary: #0b0d17;
@@ -697,6 +701,73 @@
     .marca-card { flex-direction: column; align-items: stretch; }
     .brand-link-lg { justify-content: center; }
   }
+
+  /* ── Responsive system ── */
+  @media (max-width: 480px) {
+    .dash { padding: 1rem 0.75rem 2.5rem; }
+
+    .hero { flex-direction: column; text-align: center; gap: 0.75rem; }
+    .hero-text h1 { font-size: 19px; }
+    .hero-text p { font-size: 13px; }
+    .brands { justify-content: center; }
+    .avatar { width: 56px; height: 56px; font-size: 18px; }
+
+    .comp-row {
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .comp-label {
+      width: 100%;
+      font-size: 12px;
+      margin-bottom: 1px;
+    }
+    .comp-tag { align-self: flex-end; }
+
+    .proj-header { flex-direction: column; align-items: center; text-align: center; }
+    .proj-footer { flex-wrap: wrap; gap: 6px; justify-content: center; }
+    .proj-body { text-align: center; }
+    .proj-tags { justify-content: center; }
+
+    .dofa-cell { padding: 0.85rem; }
+    .dofa-label { font-size: 9px; }
+    .dofa-item { font-size: 11px; padding: 4px 0; }
+
+    .strat-card { padding: 0.85rem; }
+
+    .timeline { padding-left: 22px; }
+    .t-dot { left: -20px; width: 12px; height: 12px; }
+    .tl-line { left: 7px; }
+    .t-horizon { font-size: 9px; }
+    .t-goal { font-size: 12px; }
+
+    .marca-card { padding: 1rem; text-align: center; }
+    .brand-link-lg { font-size: 12px; padding: 8px 14px; }
+    .brand-link-lg i { font-size: 16px !important; }
+  }
+
+  @media (max-width: 360px) {
+    .dash { padding: 0.75rem 0.5rem 2rem; }
+    .tab { font-size: 11px; padding: 6px 8px; }
+    .proj-desc { font-size: 11px; }
+    .t-actions li { font-size: 11px; }
+    .strat-text { font-size: 11px; }
+  }
+
+  @media (min-width: 1024px) {
+    .dash { max-width: 900px; padding: 3rem 2rem 5rem; }
+    .hero { gap: 1.5rem; padding-bottom: 2rem; }
+    .hero-text h1 { font-size: 26px; }
+    .avatar { width: 76px; height: 76px; font-size: 26px; }
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    .card:hover, .proj-card:hover, .strat-card:hover,
+    .marca-card:hover, .dofa-cell:hover { transform: none !important; }
+    .brand-link:hover, .brand-link-lg:hover { transform: none !important; }
+    .proj-link:hover { transform: none !important; }
+    .strength-chip:hover { transform: none !important; }
+    .t-actions li:hover { transform: none !important; }
+  }
 </style>
 
 <div class="dash">
@@ -972,3 +1043,5 @@
   document.querySelectorAll('#tl-line, #dot-1, #dot-2, #dot-3, .comp-bar').forEach(el => io.observe(el));
   setTimeout(animateBars, 600);
 </script>
+</body>
+</html>

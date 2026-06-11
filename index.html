@@ -45,7 +45,7 @@
     background: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
-    min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     justify-content: center;
   }
@@ -155,7 +155,7 @@
     gap: 6px;
     font-size: 12px;
     font-weight: 500;
-    padding: 5px 12px;
+    padding: 10px 14px;
     border-radius: 20px;
     border: 1px solid var(--border-color);
     color: var(--text-secondary);
@@ -201,7 +201,7 @@
     flex: 1;
     font-size: 12px;
     font-weight: 500;
-    padding: 7px 12px;
+    padding: 10px 12px;
     border-radius: 7px;
     border: none;
     background: transparent;
@@ -699,7 +699,7 @@
 
   @media (max-width: 640px) {
     .marca-card { flex-direction: column; align-items: stretch; }
-    .brand-link-lg { justify-content: center; }
+    .brand-link-lg { justify-content: center; padding: 12px 18px; }
   }
 
   /* ── Responsive system ── */
@@ -719,9 +719,9 @@
     .comp-label {
       width: 100%;
       font-size: 12px;
-      margin-bottom: 1px;
+      margin-bottom: 2px;
     }
-    .comp-tag { align-self: flex-end; }
+    .comp-tag { margin-left: auto; }
 
     .proj-header { flex-direction: column; align-items: center; text-align: center; }
     .proj-footer { flex-wrap: wrap; gap: 6px; justify-content: center; }
@@ -741,16 +741,21 @@
     .t-goal { font-size: 12px; }
 
     .marca-card { padding: 1rem; text-align: center; }
-    .brand-link-lg { font-size: 12px; padding: 8px 14px; }
+    .brand-link-lg { font-size: 12px; padding: 10px 14px; }
     .brand-link-lg i { font-size: 16px !important; }
   }
 
   @media (max-width: 360px) {
     .dash { padding: 0.75rem 0.5rem 2rem; }
-    .tab { font-size: 11px; padding: 6px 8px; }
+    .tab { font-size: 11px; padding: 8px 6px; }
     .proj-desc { font-size: 11px; }
     .t-actions li { font-size: 11px; }
     .strat-text { font-size: 11px; }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .dash { max-width: 720px; }
+    .comp-label { width: 180px; }
   }
 
   @media (min-width: 1024px) {
@@ -760,13 +765,21 @@
     .avatar { width: 76px; height: 76px; font-size: 26px; }
   }
 
+  @media (orientation: landscape) and (max-height: 500px) {
+    .hero { flex-direction: row; text-align: left; gap: 1rem; }
+    .hero { padding-bottom: 0.75rem; margin-bottom: 1rem; }
+    .dash { padding-top: 1rem; }
+    .avatar { width: 48px; height: 48px; font-size: 16px; }
+  }
+
   @media (hover: none) and (pointer: coarse) {
     .card:hover, .proj-card:hover, .strat-card:hover,
-    .marca-card:hover, .dofa-cell:hover { transform: none !important; }
+    .marca-card:hover, .dofa-cell:hover { transform: none !important; box-shadow: none !important; }
     .brand-link:hover, .brand-link-lg:hover { transform: none !important; }
     .proj-link:hover { transform: none !important; }
     .strength-chip:hover { transform: none !important; }
     .t-actions li:hover { transform: none !important; }
+    .tab, .brand-link, .brand-link-lg, .proj-link { min-height: 44px; }
   }
 </style>
 
@@ -988,7 +1001,7 @@
     <p class="section-title">Marca personal</p>
     <div class="marca-card">
       <div style="flex:1;min-width:220px;">
-        <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;">Ingeniero de software en formación con base sólida en análisis de requerimientos, arquitectura y resolución de problemas. En constante aprendizaje hacia Cloud, UX e inglés técnico para consolidarse como profesional competitivo en la industria del software.</p>
+        <p style="font-size:13px;color:var(--text-secondary);line-height:1.7;max-width:480px;">Ingeniero de software en formación con base sólida en análisis de requerimientos, arquitectura y resolución de problemas. En constante aprendizaje hacia Cloud, UX e inglés técnico para consolidarse como profesional competitivo en la industria del software.</p>
       </div>
       <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0;">
         <a class="brand-link-lg" href="https://www.linkedin.com/in/santiago-garcia-a69830356" target="_blank" rel="noopener" aria-label="LinkedIn de Santiago García">

@@ -6,7 +6,7 @@
 <title>Santiago García — Portafolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.24.0/dist/tabler-icons.min.css">
 <style>
   :root {
@@ -60,6 +60,14 @@
     .dash { padding: 1.25rem 1rem 3rem; }
   }
 
+  .skip-link {
+    position: absolute; top: -100%; left: 8px; padding: 8px 16px;
+    background: var(--accent); color: #fff; font-size: 14px; font-weight: 500;
+    border-radius: 0 0 8px 8px; z-index: 1000; text-decoration: none;
+    transition: top 0.2s;
+  }
+  .skip-link:focus { top: 0; }
+
   .sr-only {
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0,0,0,0); border: 0;
@@ -83,9 +91,9 @@
     0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
     50% { box-shadow: 0 0 0 10px transparent; }
   }
-  @keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
   }
 
   .anim-0 { animation: fadeUp 0.5s ease both; animation-delay: 0.05s; }
@@ -95,6 +103,9 @@
   .anim-4 { animation: fadeUp 0.5s ease both; animation-delay: 0.45s; }
   .anim-5 { animation: fadeUp 0.5s ease both; animation-delay: 0.55s; }
   .anim-6 { animation: fadeUp 0.5s ease both; animation-delay: 0.65s; }
+
+  .section { margin-bottom: 2rem; }
+  @media (max-width: 480px) { .section { margin-bottom: 1.5rem; } }
 
   @media (prefers-reduced-motion: reduce) {
     .anim-0, .anim-1, .anim-2, .anim-3, .anim-4, .anim-5, .anim-6,
@@ -264,7 +275,6 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 14px;
-    margin-bottom: 1.5rem;
   }
 
   @media (max-width: 640px) {
@@ -412,19 +422,25 @@
     gap: 1px;
     background: var(--border-color);
     border-radius: var(--radius-lg);
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-  }
-
-  @media (max-width: 500px) {
-    .dofa-grid { grid-template-columns: 1fr; }
-    .dofa-cell:last-child { border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
   }
 
   .dofa-cell {
     background: var(--bg-card);
     padding: 1rem;
     transition: background 0.2s;
+  }
+
+  .dofa-cell:first-child { border-radius: var(--radius-lg) 0 0 0; }
+  .dofa-cell:nth-child(2) { border-radius: 0 var(--radius-lg) 0 0; }
+  .dofa-cell:nth-child(3) { border-radius: 0 0 0 var(--radius-lg); }
+  .dofa-cell:last-child { border-radius: 0 0 var(--radius-lg) 0; }
+
+  @media (max-width: 500px) {
+    .dofa-grid { grid-template-columns: 1fr; }
+    .dofa-cell:first-child { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+    .dofa-cell:nth-child(2) { border-radius: 0; }
+    .dofa-cell:nth-child(3) { border-radius: 0; }
+    .dofa-cell:last-child { border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
   }
 
   .dofa-cell:hover { background: var(--bg-hover); }
@@ -462,7 +478,6 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-    margin-bottom: 1.5rem;
   }
 
   @media (max-width: 500px) {
@@ -508,7 +523,6 @@
   .timeline {
     position: relative;
     padding-left: 28px;
-    margin-bottom: 1.5rem;
   }
 
   .tl-line {
@@ -717,7 +731,9 @@
   }
 </style>
 
-<div class="dash">
+<a class="skip-link" href="#main-content">Ir al contenido principal</a>
+
+<div class="dash" id="main-content">
   <h2 class="sr-only">Portafolio profesional de Santiago García — Ingeniero de Software</h2>
 
   <!-- HERO -->
@@ -738,7 +754,7 @@
   </div>
 
   <!-- COMPETENCIAS -->
-  <div class="anim-1">
+  <div class="anim-1 section">
     <p class="section-title">Perfil &amp; competencias</p>
     <div class="tabs" id="tab-bar" role="tablist">
       <button class="tab active" data-tab="comp" role="tab" aria-selected="true" aria-controls="tab-comp">Técnicas</button>
@@ -766,7 +782,7 @@
   </div>
 
   <!-- PROYECTOS -->
-  <div class="anim-2" style="margin-top:1.5rem">
+  <div class="anim-2 section">
     <p class="section-title">Proyectos destacados</p>
     <div class="proj-grid">
 
@@ -834,7 +850,7 @@
   </div>
 
   <!-- DOFA -->
-  <div class="anim-3">
+  <div class="anim-3 section">
     <p class="section-title">Análisis DOFA</p>
     <div class="dofa-grid">
       <div class="dofa-cell">
@@ -869,7 +885,7 @@
   </div>
 
   <!-- ESTRATEGIAS -->
-  <div class="anim-4">
+  <div class="anim-4 section">
     <p class="section-title">Estrategias cruzadas</p>
     <div class="grid-2" style="gap:10px">
       <div class="strat-card"><span class="strat-badge fo">FO — F1 + O2</span><p class="strat-text">Participar en semilleros de investigación aplicando competencias en levantamiento de requerimientos y diseño de soluciones tecnológicas reales.</p></div>
@@ -880,7 +896,7 @@
   </div>
 
   <!-- PLAN DE ACCIÓN -->
-  <div class="anim-5">
+  <div class="anim-5 section">
     <p class="section-title">Plan de acción profesional</p>
     <div class="timeline">
       <div class="tl-line" id="tl-line" aria-hidden="true"></div>
@@ -921,7 +937,7 @@
   </div>
 
   <!-- MARCA PERSONAL -->
-  <div class="anim-6">
+  <div class="anim-6 section">
     <p class="section-title">Marca personal</p>
     <div class="marca-card">
       <div style="flex:1;min-width:220px;">
@@ -956,6 +972,15 @@
       btn.classList.add('active');
       btn.setAttribute('aria-selected', 'true');
       document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('#tab-bar .tab').forEach((btn, i, arr) => {
+    btn.addEventListener('keydown', (e) => {
+      const idx = e.key === 'ArrowRight' ? (i + 1) % arr.length
+                 : e.key === 'ArrowLeft' ? (i - 1 + arr.length) % arr.length
+                 : -1;
+      if (idx >= 0) { e.preventDefault(); arr[idx].click(); arr[idx].focus(); }
     });
   });
 

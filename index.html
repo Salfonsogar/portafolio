@@ -126,15 +126,9 @@
   .avatar {
     width: 68px; height: 68px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--violet));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    font-size: 22px;
-    color: #fff;
     flex-shrink: 0;
-    animation: glow-pulse 3s ease-in-out 0.6s infinite;
+    object-fit: cover;
+    border: 2px solid var(--accent);
   }
 
   .hero-text h1 {
@@ -738,7 +732,7 @@
 
   <!-- HERO -->
   <div class="hero anim-0">
-    <div class="avatar" aria-hidden="true">SG</div>
+    <img class="avatar" src="avatar.jfif" alt="Santiago García" width="68" height="68">
     <div class="hero-text">
       <h1>Santiago García</h1>
       <p>Ingeniería de Sistemas &amp; Software · Valledupar, Colombia</p>
